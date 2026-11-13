@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FieldShift | AgroSpace Xcel</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand">
+      <img src="agrospace-xcel-logo[1].jpeg" alt="AgroSpace Xcel logo" onerror="this.style.display='none'">
+      <div><strong>AgroSpace Xcel</strong><span>NASA Space Apps Challenge 2026</span></div>
+    </div>
+    <div class="navlinks">
+      <a href="#home">Home</a>
+      <a href="#fieldshift">FieldShift</a>
+      <a href="#insights">Insights</a>
+      <a href="#about">About</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-copy">
+        <div class="badge">🌎 NASA DATA × SMART FARMING</div>
+        <h1>Turn satellite data into <span>farm decisions.</span></h1>
+        <p>FieldShift helps farmers understand changing weather, soil moisture, heat and vegetation conditions before they become bigger problems.</p>
+        <div class="buttons">
+          <a class="primary" href="#fieldshift">Explore Your Field →</a>
+          <a class="secondary" href="#insights">See Insights</a>
+        </div>
+        <div class="stats">
+          <div><b>4</b><span>Key indicators</span></div>
+          <div><b>NASA</b><span>Earth observations</span></div>
+          <div><b>1</b><span>Simple dashboard</span></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="orb">🌱</div>
+        <div class="orbit o1"></div><div class="orbit o2"></div>
+        <p>ADAPT BEFORE<br><strong>THE WEATHER DOES.</strong></p>
+      </div>
+    </section>
+
+    <section id="fieldshift" class="section">
+      <div class="section-heading">
+        <div><div class="eyebrow">01 / FIELD EXPLORER</div><h2>Explore your field</h2></div>
+        <p>Click anywhere on the map to simulate a field assessment.</p>
+      </div>
+
+      <div class="explorer">
+        <div id="map"></div>
+        <aside class="panel">
+          <label>Selected location</label>
+          <div id="locationName" class="location">Kudat, Sabah</div>
+          <button id="analyzeBtn" class="analyze">Analyze this field</button>
+          <div class="loading" id="loading">Processing Earth observation indicators…</div>
+          <div id="results">
+            <div class="score"><span>Field Health</span><strong id="health">72</strong><small>/100</small></div>
+            <div class="metric"><span>💧 Water Stress</span><b id="water">Moderate</b></div>
+            <div class="metric"><span>🌡️ Heat Risk</span><b id="heat">High</b></div>
+            <div class="metric"><span>🌿 Vegetation</span><b id="veg">Declining</b></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="insights" class="section dark">
+      <div class="section-heading">
+        <div><div class="eyebrow">02 / EXPLAINABLE INSIGHTS</div><h2>Why is the field at risk?</h2></div>
+      </div>
+      <div class="cards">
+        <article><span>01</span><h3>Rainfall below baseline</h3><p>Recent rainfall is lower than the expected seasonal pattern, increasing the chance of water stress.</p></article>
+        <article><span>02</span><h3>Soil moisture declining</h3><p>Lower soil moisture suggests crops may need closer monitoring as dry conditions continue.</p></article>
+        <article><span>03</span><h3>Surface temperature elevated</h3><p>Higher land-surface temperature can increase crop heat stress and evaporation.</p></article>
+      </div>
+      <div class="recommendation">
+        <div class="rec-icon">✓</div>
+        <div><div class="eyebrow">ADAPTATION GUIDANCE</div><h3>Monitor irrigation and crop stress closely</h3><p>Prioritize fields showing both declining soil moisture and elevated surface temperature. Re-check the field after the next rainfall event.</p></div>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="eyebrow">03 / ABOUT AGROSPACE XCEL</div>
+      <h2>Making NASA Earth data easier to use on the farm.</h2>
+      <p>FieldShift is a prototype created for the NASA Space Apps Challenge 2026. Our goal is to transform complex environmental observations into understandable, actionable information for farmers facing unpredictable weather.</p>
+      <div class="data-row">
+        <div><b>Rainfall</b><span>Weather context</span></div>
+        <div><b>Soil moisture</b><span>Water availability</span></div>
+        <div><b>Land temperature</b><span>Heat stress</span></div>
+        <div><b>Vegetation</b><span>Crop condition</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>AgroSpace Xcel · FieldShift · NASA Space Apps Challenge 2026</footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
