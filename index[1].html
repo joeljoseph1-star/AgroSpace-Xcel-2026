@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroSpace Xcel | FieldShift</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#home">
+    <img src="agrospace-xcel-logo.jpeg" alt="AgroSpace Xcel logo" onerror="this.style.display='none'">
+    <span><b>AGROSPACE XCEL</b><small>NASA SPACE APPS CHALLENGE 2026</small></span>
+  </a>
+  <nav>
+    <a href="#home">HOME</a>
+    <a href="#team">WHO WE ARE</a>
+    <a href="#fieldshift">FIELDSHIFT</a>
+    <a href="#method">METHOD</a>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="eyebrow">NASA SPACE APPS CHALLENGE 2026 · FIELD SHIFT</p>
+    <h1>From space.<br><span>For the field.</span></h1>
+    <p class="hero-copy">
+      We are <strong>AgroSpace Xcel</strong> — a team of <strong>5 first-year Aerospace Engineering students</strong>
+      from <strong>Universiti Sains Malaysia (USM)</strong>, building FieldShift to turn Earth-observation
+      signals into clearer agricultural decisions.
+    </p>
+    <div class="actions">
+      <a class="button light" href="#fieldshift">EXPLORE FIELDSHIFT ↗</a>
+      <a class="text-button" href="#team">MEET THE TEAM ↓</a>
+    </div>
+  </div>
+  <div class="hero-credit">EARTH OBSERVATION · AGRICULTURE · ADAPTATION</div>
+</section>
+
+<section id="team" class="section intro">
+  <p class="eyebrow blue">WHO WE ARE</p>
+  <h2>Five students.<br>One Earth-observation mission.</h2>
+  <p class="lead">We are first-year Aerospace Engineering students at Universiti Sains Malaysia, using our aerospace perspective to explore how satellite and environmental data can support farmers facing unpredictable weather.</p>
+  <div class="team-grid">
+    <div><b>05</b><span>TEAM MEMBERS</span></div>
+    <div><b>01</b><span>FIELD SHIFT PROJECT</span></div>
+    <div><b>USM</b><span>UNIVERSITI SAINS MALAYSIA</span></div>
+  </div>
+</section>
+
+<section id="fieldshift" class="field-section">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow blue">FIELDSHIFT · LIVE LOCATION MODEL</p>
+      <h2>Explore your field.</h2>
+      <p>Click anywhere on the map. The selected city/region and location-based indicators update automatically.</p>
+    </div>
+    <div id="status" class="status"><span></span> READY</div>
+  </div>
+
+  <div class="field-layout">
+    <div id="map"></div>
+
+    <aside class="dashboard">
+      <p class="eyebrow">SELECTED LOCATION</p>
+      <h3 id="placeName">Select a field</h3>
+      <p id="coords">Click the map to begin.</p>
+
+      <button id="analyzeBtn" class="analyze" disabled>RUN FIELD ANALYSIS ↗</button>
+
+      <div class="health">
+        <div><p>FIELD HEALTH</p><strong id="health">—</strong><span>/100</span></div>
+        <div class="ring"><div id="ringValue">—</div></div>
+      </div>
+
+      <div class="metric"><span>🌧️ Rainfall</span><b id="rainLabel">—</b><small id="rainValue">Select a location</small></div>
+      <div class="metric"><span>💧 Soil moisture</span><b id="soilLabel">—</b><small id="soilValue">Select a location</small></div>
+      <div class="metric"><span>🌡️ Land temperature</span><b id="tempLabel">—</b><small id="tempValue">Select a location</small></div>
+      <div class="metric"><span>🌿 Vegetation</span><b id="vegLabel">—</b><small id="vegValue">Select a location</small></div>
+
+      <div class="explain">
+        <p class="eyebrow">WHY IT MATTERS</p>
+        <p id="explanation">Choose a location to generate a location-specific prototype assessment.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section id="method" class="section method">
+  <p class="eyebrow blue">METHOD</p>
+  <h2>Observe. Explain. Adapt.</h2>
+  <div class="method-grid">
+    <article><span>01</span><h3>OBSERVE</h3><p>Use the selected coordinates to retrieve environmental information and establish a field context.</p></article>
+    <article><span>02</span><h3>EXPLAIN</h3><p>Translate the signals into simple indicators instead of showing farmers raw data alone.</p></article>
+    <article><span>03</span><h3>ADAPT</h3><p>Highlight what deserves attention and provide a clear next step for monitoring.</p></article>
+  </div>
+</section>
+</main>
+
+<footer>AGROSPACE XCEL · FIELD SHIFT · NASA SPACE APPS CHALLENGE 2026 · UNIVERSITI SAINS MALAYSIA</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
