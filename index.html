@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FieldShift | AgroSpace Xcel</title>
+  <meta name="description" content="FieldShift — adapting farms with NASA data. AgroSpace Xcel, NASA Space Apps Challenge 2026.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="#home">
+    <span class="brand-mark">AX</span>
+    <span><strong>AGROSPACE XCEL</strong><small>NASA SPACE APPS CHALLENGE 2026</small></span>
+  </a>
+  <nav>
+    <a href="#home">HOME</a>
+    <a href="#fieldshift">FIELDSHIFT</a>
+    <a href="#insights">INSIGHTS</a>
+    <a href="#method">METHOD</a>
+    <a href="#team">TEAM</a>
+  </nav>
+  <button class="nav-cta" onclick="document.getElementById('fieldshift').scrollIntoView({behavior:'smooth'})">EXPLORE YOUR FIELD →</button>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <p class="eyebrow">FIELD SHIFT · ADAPTING FARMS WITH NASA DATA</p>
+    <h1>From space.<br><em>For the field.</em></h1>
+    <p class="hero-copy">FieldShift turns satellite observations into practical farm intelligence — helping farmers understand rainfall, heat, soil wetness and vegetation before making the next decision.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="#fieldshift">Explore your field <span>↗</span></a>
+      <a class="button ghost" href="#method">How it works</a>
+    </div>
+    <div class="hero-note"><span class="pulse"></span> NASA data · location-aware · explainable insights</div>
+  </div>
+  <div class="orbit-card">
+    <div class="orbit-line"></div>
+    <div class="orbit-earth">◉</div>
+    <div class="orbit-label">EARTH<br><span>OBSERVATION</span></div>
+  </div>
+</section>
+
+<section id="fieldshift" class="workspace section">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">STEP 01</p>
+      <h2>Explore your field</h2>
+      <p>Drop a pin anywhere on Earth. FieldShift will build a location-aware environmental snapshot.</p>
+    </div>
+    <div class="location-chip" id="locationChip">No location selected</div>
+  </div>
+
+  <div class="map-layout">
+    <div class="map-card">
+      <div id="map"></div>
+      <div class="map-hint">Click the map to select a field location</div>
+      <div class="map-controls">
+        <button onclick="locateMe()">◎ My location</button>
+        <button onclick="setDemo('Kudat, Sabah', 6.8871, 116.8529)">↗ Kudat demo</button>
+        <button onclick="setDemo('Seoul, South Korea', 37.5665, 126.9780)">↗ Seoul demo</button>
+      </div>
+    </div>
+
+    <aside class="location-panel">
+      <p class="eyebrow">YOUR LOCATION</p>
+      <h3 id="placeName">Select a field</h3>
+      <p class="coords" id="coords">—</p>
+      <div class="mini-status"><span class="status-dot"></span><span id="statusText">Waiting for a location</span></div>
+      <button class="button primary full" onclick="runAnalysis()">Run field analysis →</button>
+      <p class="small">Analysis uses NASA POWER climate data when available. Results are indicators, not crop prescriptions.</p>
+    </aside>
+  </div>
+</section>
+
+<section id="insights" class="dashboard section">
+  <div class="section-heading compact">
+    <div>
+      <p class="eyebrow">STEP 02</p>
+      <h2>Your field at a glance</h2>
+      <p id="analysisSubtitle">Select a location to generate a location-aware snapshot.</p>
+    </div>
+    <div class="data-source">NASA POWER · NASA SRTM · location analysis</div>
+  </div>
+
+  <div class="metric-grid">
+    <article class="metric-card"><div class="metric-icon">☁</div><p>RAINFALL</p><strong id="rainfall">—</strong><span id="rainfallNote">annual estimate</span></article>
+    <article class="metric-card"><div class="metric-icon">◌</div><p>CROP WATER USE</p><strong id="waterUse">—</strong><span>reference evapotranspiration</span></article>
+    <article class="metric-card"><div class="metric-icon">☼</div><p>AVG. TEMP</p><strong id="avgTemp">—</strong><span id="tempNote">annual average</span></article>
+    <article class="metric-card"><div class="metric-icon">◒</div><p>ROOT-ZONE WETNESS</p><strong id="wetness">—</strong><span>relative field indicator</span></article>
+    <article class="metric-card"><div class="metric-icon">⌂</div><p>HEAT RISK</p><strong id="heatRisk">—</strong><span id="heatNote">based on temperature signal</span></article>
+    <article class="metric-card"><div class="metric-icon">≈</div><p>VEGETATION</p><strong id="vegetation">—</strong><span id="vegNote">seasonal indicator</span></article>
+  </div>
+
+  <div class="chart-grid">
+    <article class="chart-card wide">
+      <div class="card-title"><div><p class="eyebrow">YOUR YEAR AT A GLANCE</p><h3>Rainfall vs. crop water demand</h3></div><span id="chartLabel">12-month view</span></div>
+      <canvas id="climateChart"></canvas>
+      <p class="chart-note">Bars show monthly precipitation; lines show reference water demand and temperature. Values are intended for situational awareness.</p>
+    </article>
+    <article class="chart-card">
+      <div class="card-title"><div><p class="eyebrow">LONG-TERM SIGNAL</p><h3>Climate direction</h3></div></div>
+      <div class="trend-row"><span>Rainfall</span><strong id="rainTrend">—</strong></div>
+      <div class="trend-bar"><i id="rainTrendBar"></i></div>
+      <div class="trend-row"><span>Temperature</span><strong id="tempTrend">—</strong></div>
+      <div class="trend-bar"><i id="tempTrendBar"></i></div>
+      <div class="trend-row"><span>Dryness pressure</span><strong id="dryTrend">—</strong></div>
+      <div class="trend-bar"><i id="dryTrendBar"></i></div>
+      <div class="callout" id="whyMatters">Run an analysis to see what the signals may mean for the field.</div>
+    </article>
+  </div>
+</section>
+
+<section class="recommend section">
+  <div class="section-heading compact">
+    <div>
+      <p class="eyebrow">STEP 03</p>
+      <h2>Compare adaptation options</h2>
+      <p>FieldShift translates the environmental picture into explainable options to discuss with local agricultural experts.</p>
+    </div>
+  </div>
+  <div class="recommend-grid" id="recommendations">
+    <article class="recommend-card featured">
+      <div class="match">BEST MATCH <strong id="bestScore">—</strong>/100</div>
+      <h3 id="bestTitle">Select a location</h3>
+      <p id="bestDescription">Your best-fit adaptation option will appear after analysis.</p>
+      <div class="score-list" id="bestScores"></div>
+      <div class="callout"><strong>Why this matters</strong><br><span id="bestWhy">FieldShift combines environmental signals with general crop knowledge to support better questions and planning.</span></div>
+    </article>
+    <article class="recommend-card">
+      <div class="match">ALTERNATIVE <strong id="altScore">—</strong>/100</div>
+      <h3 id="altTitle">—</h3>
+      <p id="altDescription">—</p>
+      <div class="score-list" id="altScores"></div>
+    </article>
+    <article class="recommend-card">
+      <div class="match">ALTERNATIVE <strong id="alt2Score">—</strong>/100</div>
+      <h3 id="alt2Title">—</h3>
+      <p id="alt2Description">—</p>
+      <div class="score-list" id="alt2Scores"></div>
+    </article>
+  </div>
+  <div class="disclaimer">FieldShift scores indicate possibilities, not instructions. Local soil tests, pests, drainage, market conditions, extension advice and farmer experience remain essential.</div>
+</section>
+
+<section id="method" class="method section">
+  <div class="method-copy">
+    <p class="eyebrow">METHOD</p>
+    <h2>From satellite observation to a farm conversation.</h2>
+    <p>FieldShift is designed around a simple chain: observe the environment, explain the signal, then compare practical adaptation options.</p>
+  </div>
+  <div class="method-steps">
+    <div><span>01</span><h3>Observe</h3><p>NASA Earth-observation and climate datasets provide environmental signals.</p></div>
+    <div><span>02</span><h3>Interpret</h3><p>Location-specific indicators highlight rainfall, heat, water and vegetation pressure.</p></div>
+    <div><span>03</span><h3>Adapt</h3><p>Explainable comparisons help farmers and advisors explore possible responses.</p></div>
+  </div>
+</section>
+
+<section id="team" class="team section">
+  <div class="section-heading compact">
+    <div>
+      <p class="eyebrow">AGROSPACE XCEL</p>
+      <h2>Meet the team</h2>
+      <p>Five first-year Aerospace Engineering students from Universiti Sains Malaysia.</p>
+    </div>
+  </div>
+  <div class="team-grid">
+    <article class="team-card"><div class="avatar">JJ</div><p class="eyebrow">TEAM LEADER</p><h3>Joel Joseph Lester Sellep</h3><span>AgroSpace Xcel</span></article>
+    <article class="team-card"><div class="avatar">RR</div><p class="eyebrow">TEAM MEMBER</p><h3>Rafael Dean Richard</h3><span>AgroSpace Xcel</span></article>
+    <article class="team-card"><div class="avatar">LW</div><p class="eyebrow">TEAM MEMBER</p><h3>Lim Wei Jiun</h3><span>AgroSpace Xcel</span></article>
+    <article class="team-card"><div class="avatar">RA</div><p class="eyebrow">TEAM MEMBER</p><h3>Rajiv Akhiilendra A/L Supramaniam</h3><span>AgroSpace Xcel</span></article>
+    <article class="team-card"><div class="avatar">AQ</div><p class="eyebrow">TEAM MEMBER</p><h3>Ahmad Quisyri Azim Bin Ahmad Zafir</h3><span>AgroSpace Xcel</span></article>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div><strong>AGROSPACE XCEL</strong><span>FIELD SHIFT · ADAPTING FARMS WITH NASA DATA</span></div>
+  <div>NASA SPACE APPS CHALLENGE 2026 · UNIVERSITI SAINS MALAYSIA</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
