@@ -1,0 +1,9 @@
+const map=L.map('map',{zoomControl:true}).setView([6.8741,116.8996],5);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'}).addTo(map);
+L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,opacity:.7}).addTo(map);
+let marker=L.marker([6.8741,116.8996]).addTo(map);const locationName=document.getElementById('locationName'),coords=document.getElementById('coords');
+function coord(v,lat){return `${Math.abs(v).toFixed(4)}° ${v>=0?(lat?'N':'E'):(lat?'S':'W')}`}
+async function setLocation(lat,lng){coords.textContent=`${coord(lat,true)} · ${coord(lng,false)}`;locationName.textContent='Selected field';try{const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);const d=await r.json(),a=d.address||{};const place=a.city||a.town||a.village||a.municipality||a.state||'Selected field';locationName.textContent=a.country?`${place}, ${a.country}`:place}catch(e){}}
+map.on('click',e=>{marker.setLatLng(e.latlng);setLocation(e.latlng.lat,e.latlng.lng)});setLocation(6.8741,116.8996);
+document.getElementById('analyzeBtn').addEventListener('click',()=>{healthScore.textContent='63';ringScore.textContent='63';rainfall.textContent='Near baseline';soil.textContent='Moderate';temp.textContent='Moderate';vegetation.textContent='Stable';whyText.textContent='Rainfall is close to the baseline while soil moisture remains moderate and temperature conditions are manageable.'});
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
